@@ -36,8 +36,7 @@
         button.disabled = true
         resultDiv.innerHTML = "Carregando..."
 
-        const apiKey = "29b6171ede0eea7146326b7e99089f8694d8f027"
-        const url = `https://www.cepcerto.com/ws/json-frete/${cepOrigem}/${cepDestino}/${peso}/${altura}/${largura}/${comprimento}/${apiKey}`
+        const url = `http://localhost:3000/frete?cepOrigem=${cepOrigem}&cepDestino=${cepDestino}&peso=${peso}&altura=${altura}&largura=${largura}&comprimento=${comprimento}`
 
         fetch(url)
           .then((response) => {
