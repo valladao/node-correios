@@ -30,21 +30,33 @@
         const altura = document.getElementById("altura").value
         const largura = document.getElementById("largura").value
         const comprimento = document.getElementById("comprimento").value
-        const apiKey = "29b6171ede0eea7146326b7e99089f8694d8f027"
+        const button = document.querySelector("button")
+        const resultDiv = document.getElementById("result")
 
+        button.disabled = true
+        resultDiv.innerHTML = "Carregando..."
+
+        const apiKey = "29b6171ede0eea7146326b7e99089f8694d8f027"
         const url = `https://www.cepcerto.com/ws/json-frete/${cepOrigem}/${cepDestino}/${peso}/${altura}/${largura}/${comprimento}/${apiKey}`
 
         fetch(url)
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Network response was not ok " + response.statusText
+              )
+            }
+            return response.json()
+          })
           .then((data) => {
-            document.getElementById(
-              "result"
-            ).innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`
+            resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`
           })
           .catch((error) => {
             console.error("Erro na requisição:", error)
-            document.getElementById("result").textContent =
-              "Erro na requisição: " + error
+            resultDiv.textContent = "Erro na requisição: " + error
+          })
+          .finally(() => {
+            button.disabled = false
           })
       }
     </script>
